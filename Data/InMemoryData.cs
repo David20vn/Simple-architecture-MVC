@@ -6,48 +6,38 @@ namespace InventorySalesAPI.Data
 {
     public static class InMemoryData
     {
-        // =========================
-        // ROLES
-        // =========================
-        public static List<Role> Roles = new List<Role>()
-        {
-            new Role { Id = 1, Name = "Admin" },
-            new Role { Id = 2, Name = "Seller" }
-        };
 
-        // =========================
         // USERS
-        // =========================
+
         public static List<User> Users = new List<User>()
         {
             new User
             {
                 Id = 1,
                 Username = "admin",
-                Password = "123",
-                RoleId = 1
+                PasswordHash = "123",
+                Role = 1
             },
             new User
             {
                 Id = 2,
                 Username = "seller",
-                Password = "123",
-                RoleId = 2
+                PasswordHash = "123",
+                Role = 2
             }
         };
 
-        // =========================
         // CATEGORIES
-        // =========================
+
         public static List<Category> Categories = new List<Category>()
         {
-            new Category { Id = 1, Name = "Beverages" },
-            new Category { Id = 2, Name = "Electronics" }
+            new Category { Id = 1, Name = "Alimentos" },
+            new Category { Id = 2, Name = "Electronicos" }
         };
 
-        // =========================
+
         // PRODUCTS
-        // =========================
+
         public static List<Product> Products = new List<Product>()
         {
             new Product
@@ -66,9 +56,9 @@ namespace InventorySalesAPI.Data
             }
         };
 
-        // =========================
+
         // INVENTORIES
-        // =========================
+
         public static List<Inventory> Inventories = new List<Inventory>()
         {
             new Inventory
@@ -85,15 +75,14 @@ namespace InventorySalesAPI.Data
             }
         };
 
-        // =========================
+
         // SALES
-        // =========================
+
         public static List<Sale> Sales = new List<Sale>()
         {
             new Sale
             {
                 Id = 1,
-                Date = DateTime.Now,
                 UserId = 2,
                 Total = 4000,
                 Details = new List<SaleDetail>()
@@ -103,15 +92,15 @@ namespace InventorySalesAPI.Data
                         Id = 1,
                         ProductId = 1,
                         Quantity = 1,
-                        UnitPrice = 4000
+                        UnitPrice = 4000,
+                        SubTotal = 4000
                     }
                 }
             }
         };
 
-        // =========================
+
         // HELPERS (ID GENERATORS)
-        // =========================
 
         public static int GetNextUserId()
         {
