@@ -1,6 +1,6 @@
-using InventorySalesAPI.Models;
+using Sistema_inventario_mvc.Models;
 
-namespace InventorySalesAPI.Services.Interfaces
+namespace Sistema_inventario_mvc.Services.Interfaces
 {
     public interface IProductService
     {

@@ -1,18 +1,22 @@
-public class SaleDetail
+namespace Sistema_inventario_mvc.Models
 {
-    public int Id { get; set; }
-
-    public int ProductId { get; set; }
-
-    public int Quantity { get; set; }
-
-    public decimal UnitPrice { get; set; }
-
-    public decimal SubTotal { get; set; }
-
-    public SaleDetail(int productId, int quantity)
+    public class SaleDetail
     {
-        ProductId = productId;
-        Quantity = quantity;
+        public int Id { get; set; }
+
+        public int ProductId { get; set; }
+
+        public int Quantity { get; set; }
+
+        public decimal UnitPrice { get; set; }
+
+        public decimal SubTotal { get; set; }
+
+        public SaleDetail(){}
+        public SaleDetail(int productId, int quantity)
+        {
+            ProductId = productId;
+            Quantity = quantity;
+        }
     }
 }

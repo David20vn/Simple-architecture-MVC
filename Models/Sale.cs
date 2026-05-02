@@ -1,16 +1,20 @@
-public class Sale
+namespace Sistema_inventario_mvc.Models
 {
-    public int Id { get; set; }
-
-    public int UserId { get; set; }
-
-    public decimal Total { get; set; }
-
-    public List<SaleDetail> Details { get; set; }
-
-    public Sale(int userId, List<SaleDetail> details)
+    public class Sale
     {
-        UserId = userId;
-        Details = details;
+        public int Id { get; set; }
+
+        public int UserId { get; set; }
+
+        public decimal Total { get; set; }
+
+        public List<SaleDetail> Details { get; set; }
+
+        public Sale(){}
+        public Sale(int userId, List<SaleDetail> details)
+        {
+            UserId = userId;
+            Details = details;
+        }
     }
 }

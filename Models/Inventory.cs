@@ -1,12 +1,17 @@
-public class Inventory
-{
-    public int Id { get; set; }
-    public int ProductId { get; set; }
-    public int StockQuantity { get; set; }
 
-    public Inventory(int productId, int stockQuantity)
+namespace Sistema_inventario_mvc.Models
+{
+    public class Inventory
     {
-        ProductId = productId;
-        StockQuantity = stockQuantity;
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public int StockQuantity { get; set; }
+
+        public Inventory(){}
+        public Inventory(int productId, int stockQuantity)
+        {
+            ProductId = productId;
+            StockQuantity = stockQuantity;
+        }
     }
 }

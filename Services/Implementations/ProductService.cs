@@ -1,9 +1,9 @@
-using InventorySalesAPI.Models;
-using InventorySalesAPI.Repositories.Interfaces;
-using InventorySalesAPI.Data;
-using InventorySalesAPI.Services.Interfaces;
+using Sistema_inventario_mvc.Models;
+using Sistema_inventario_mvc.Repositories.Interfaces;
+using Sistema_inventario_mvc.Data;
+using Sistema_inventario_mvc.Services.Interfaces;
 
-namespace InventorySalesAPI.Services.Implementations
+namespace Sistema_inventario_mvc.Services.Implementations
 {
     public class ProductService : IProductService
     {

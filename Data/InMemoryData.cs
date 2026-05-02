@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
-using InventorySalesAPI.Models;
+using System.Linq;
 
-namespace InventorySalesAPI.Data
+using Sistema_inventario_mvc.Models;
+using Sistema_inventario_mvc.Helpers;
+
+namespace Sistema_inventario_mvc.Data
 {
     public static class InMemoryData
     {
@@ -15,15 +18,15 @@ namespace InventorySalesAPI.Data
             {
                 Id = 1,
                 Username = "admin",
-                PasswordHash = "123",
-                Role = 1
+                PasswordHash = PasswordHelper.HashPassword("Admin123"),
+                Role = Role.Admin
             },
             new User
             {
                 Id = 2,
-                Username = "seller",
-                PasswordHash = "123",
-                Role = 2
+                Username = "vendedor1",
+                PasswordHash = PasswordHelper.HashPassword("Vende123"),
+                Role = Role.Seller
             }
         };
 

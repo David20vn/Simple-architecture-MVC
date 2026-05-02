@@ -1,5 +1,9 @@
-public enum Role
+namespace Sistema_inventario_mvc.Models
 {
-    Admin = 1,
-    Seller = 2
+    public enum Role
+    {
+        Admin = 1,
+        Seller = 2
+    }
 }
+

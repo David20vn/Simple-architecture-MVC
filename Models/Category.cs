@@ -1,11 +1,16 @@
-public class Category
+namespace Sistema_inventario_mvc.Models
 {
-    public int Id { get; set; }
-
-    public string Name { get; set; }
-
-    public Category(string name)
+    public class Category
     {
-        Name = name;
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public Category(){}
+        public Category(string name)
+        {
+            Name = name;
+        }
     }
 }
+

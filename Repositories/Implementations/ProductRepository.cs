@@ -1,8 +1,8 @@
-using InventorySalesAPI.Data;
-using InventorySalesAPI.Models;
-using InventorySalesAPI.Repositories.Interfaces;
+using Sistema_inventario_mvc.Data;
+using Sistema_inventario_mvc.Models;
+using Sistema_inventario_mvc.Repositories.Interfaces;
 
-namespace InventorySalesAPI.Repositories.Implementations
+namespace Sistema_inventario_mvc.Repositories.Implementations
 {
     public class ProductRepository : IProductRepository
     {
