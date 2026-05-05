@@ -1,23 +1,19 @@
-using Sistema_inventario_mvc.Models;
-using Sistema_inventario_mvc.Helpers;
 using Sistema_inventario_mvc.Data;
+using Sistema_inventario_mvc.Models;
 using Sistema_inventario_mvc.Repositories.Interfaces;
 
 namespace Sistema_inventario_mvc.Repositories.Implementations
 {
-
     public class UserRepository : IUserRepository
     {
-        // Referencia directa a la lista en memoria
         private List<User> _users => InMemoryData.Users;
-        
 
         public User? GetById(int id)
         {
             return _users.FirstOrDefault(u => u.Id == id);
         }
 
-        public User? GetByUsername(string username)  // ← IMPLEMENTADO
+        public User? GetByUsername(string username)
         {
             return _users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
         }
@@ -29,8 +25,9 @@ namespace Sistema_inventario_mvc.Repositories.Implementations
 
         public void Add(User user)
         {
-            // Asignar ID incremental simple
-            user.Id = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
+            // Asignar ID incremental usando el método SetId
+            int newId = _users.Count > 0 ? _users.Max(u => u.Id) + 1 : 1;
+            user.SetId(newId);
             _users.Add(user);
         }
 
@@ -39,9 +36,9 @@ namespace Sistema_inventario_mvc.Repositories.Implementations
             var existing = GetById(user.Id);
             if (existing != null)
             {
-                existing.Username = user.Username;
-                existing.PasswordHash = user.PasswordHash;
-                existing.Role = user.Role;
+                existing.SetUsername(user.Username);
+                existing.SetPasswordHash(user.PasswordHash);
+                existing.SetRole(user.Role);
             }
         }
 

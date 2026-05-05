@@ -5,7 +5,6 @@ namespace Sistema_inventario_mvc.Helpers
 {
     public static class PasswordHelper
     {
-        // Sal fija para desarrollo (en producción usarías una sal aleatoria por usuario)
         private const string Salt = "SaltFijaParaDesarrollo_2024!";
 
         public static string HashPassword(string password)

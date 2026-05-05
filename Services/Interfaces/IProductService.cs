@@ -4,10 +4,14 @@ namespace Sistema_inventario_mvc.Services.Interfaces
 {
     public interface IProductService
     {
-        void Add(Product product);
-        void Update(Product product);
+        Product? GetById(int id);
+        IEnumerable<Product> GetAll();
+        IEnumerable<Product> GetByCategory(int categoryId);
+        IEnumerable<Product> GetAvailable();
+        IEnumerable<Product> GetLowStock(int threshold);
+        Product Create(Product product);
+        Product Update(int id, Product updatedProduct);
+        void UpdatePrice(int id, decimal newPrice);
         void Delete(int id);
-        Product GetById(int id);
-        List<Product> GetAll();
     }
 }

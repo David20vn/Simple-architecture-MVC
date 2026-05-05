@@ -13,11 +13,16 @@ using Sistema_inventario_mvc.Repositories.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Servicio de controladores (API o MVC)
-builder.Services.AddControllers();   // Usa AddControllers si son API, o AddControllersWithViews si son MVC con vistas
+builder.Services.AddControllers();
 
 // 2. Registrar tus servicios personalizados como Singleton
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
+builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<ICategoryService, CategoryService>();
 
 // 3. Autenticación JWT (la configuración que ya tienes)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

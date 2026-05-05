@@ -1,11 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
-
-using Sistema_inventario_mvc.Services.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 using Sistema_inventario_mvc.Models;
+using Sistema_inventario_mvc.Services.Interfaces;
 
 namespace Sistema_inventario_mvc.Services.Implementations
 {
@@ -26,10 +25,11 @@ namespace Sistema_inventario_mvc.Services.Implementations
 
         public string GenerateToken(User user)
         {
-            // 1. Crear claims con al menos NameIdentifier y Role
+            // 1. Crear claims con id, nombre y rol
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),          // ← nombre de usuario
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 

@@ -1,138 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-
 using Sistema_inventario_mvc.Models;
-using Sistema_inventario_mvc.Helpers;
 
 namespace Sistema_inventario_mvc.Data
 {
     public static class InMemoryData
     {
-
-        // USERS
-
-        public static List<User> Users = new List<User>()
-        {
-            new User
-            {
-                Id = 1,
-                Username = "admin",
-                PasswordHash = PasswordHelper.HashPassword("Admin123"),
-                Role = Role.Admin
-            },
-            new User
-            {
-                Id = 2,
-                Username = "vendedor1",
-                PasswordHash = PasswordHelper.HashPassword("Vende123"),
-                Role = Role.Seller
-            }
-        };
-
-        // CATEGORIES
-
-        public static List<Category> Categories = new List<Category>()
-        {
-            new Category { Id = 1, Name = "Alimentos" },
-            new Category { Id = 2, Name = "Electronicos" }
-        };
-
-
-        // PRODUCTS
-
-        public static List<Product> Products = new List<Product>()
-        {
-            new Product
-            {
-                Id = 1,
-                Name = "Coca Cola",
-                Price = 4000,
-                CategoryId = 1
-            },
-            new Product
-            {
-                Id = 2,
-                Name = "Headphones",
-                Price = 80000,
-                CategoryId = 2
-            }
-        };
-
-
-        // INVENTORIES
-
-        public static List<Inventory> Inventories = new List<Inventory>()
-        {
-            new Inventory
-            {
-                Id = 1,
-                ProductId = 1,
-                StockQuantity = 50
-            },
-            new Inventory
-            {
-                Id = 2,
-                ProductId = 2,
-                StockQuantity = 20
-            }
-        };
-
-
-        // SALES
-
-        public static List<Sale> Sales = new List<Sale>()
-        {
-            new Sale
-            {
-                Id = 1,
-                UserId = 2,
-                Total = 4000,
-                Details = new List<SaleDetail>()
-                {
-                    new SaleDetail
-                    {
-                        Id = 1,
-                        ProductId = 1,
-                        Quantity = 1,
-                        UnitPrice = 4000,
-                        SubTotal = 4000
-                    }
-                }
-            }
-        };
-
-
-        // HELPERS (ID GENERATORS)
-
-        public static int GetNextUserId()
-        {
-            return Users.Any() ? Users.Max(u => u.Id) + 1 : 1;
-        }
-
-        public static int GetNextCategoryId()
-        {
-            return Categories.Any() ? Categories.Max(c => c.Id) + 1 : 1;
-        }
-
-        public static int GetNextProductId()
-        {
-            return Products.Any() ? Products.Max(p => p.Id) + 1 : 1;
-        }
-
-        public static int GetNextInventoryId()
-        {
-            return Inventories.Any() ? Inventories.Max(i => i.Id) + 1 : 1;
-        }
-
-        public static int GetNextSaleId()
-        {
-            return Sales.Any() ? Sales.Max(s => s.Id) + 1 : 1;
-        }
-
-        public static int GetNextSaleDetailId(List<SaleDetail> details)
-        {
-            return details.Any() ? details.Max(d => d.Id) + 1 : 1;
-        }
+        public static List<User> Users { get; set; } = new List<User>();
+        public static List<Category> Categories { get; set; } = new List<Category>();
+        public static List<Product> Products { get; set; } = new List<Product>();
+        public static List<Inventory> Inventories { get; set; } = new List<Inventory>();
+        public static List<Sale> Sales { get; set; } = new List<Sale>();
     }
 }

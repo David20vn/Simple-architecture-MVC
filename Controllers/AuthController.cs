@@ -28,8 +28,7 @@ namespace Sistema_inventario_mvc.Controllers
             if (user == null){
                 return Unauthorized(new { message = "Usuario o contraseña inválidos" });
             }
-                
-
+            
             // 2. Verificar contraseña
             if (!PasswordHelper.VerifyPassword(request.Password, user.PasswordHash))
                 return Unauthorized(new { message = "Usuario o contraseña inválidos" });
