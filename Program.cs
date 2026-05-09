@@ -23,6 +23,9 @@ builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<IProductService, ProductService>();
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
+builder.Services.AddSingleton<IInventoryService, InventoryService>();
+builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 
 // 3. Autenticación JWT (la configuración que ya tienes)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

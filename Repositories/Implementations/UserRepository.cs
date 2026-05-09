@@ -1,12 +1,27 @@
 using Sistema_inventario_mvc.Data;
 using Sistema_inventario_mvc.Models;
 using Sistema_inventario_mvc.Repositories.Interfaces;
+using Sistema_inventario_mvc.Helpers;
 
 namespace Sistema_inventario_mvc.Repositories.Implementations
 {
     public class UserRepository : IUserRepository
     {
         private List<User> _users => InMemoryData.Users;
+
+        static UserRepository()
+        {
+            if (InMemoryData.Users.Count == 0)
+            {
+                var admin = new User(
+                    username: "admin",
+                    passwordHash: PasswordHelper.HashPassword("Admin123"),
+                    role: Role.Admin
+                );
+                admin.SetId(1);
+                InMemoryData.Users.Add(admin);
+            }
+        }
 
         public User? GetById(int id)
         {

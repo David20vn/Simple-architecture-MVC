@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_inventario_mvc.DTOs;
 using Sistema_inventario_mvc.Models;
@@ -7,7 +8,7 @@ namespace Sistema_inventario_mvc.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    // Sin [Authorize] – abierto para pruebas
+    [Authorize(Roles = "Admin")] // Solo Administradores pueden acceder a este controlador
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -48,7 +49,7 @@ namespace Sistema_inventario_mvc.Controllers
         public IActionResult Create([FromBody] CreateUserRequestDto dto)
         {
             if (!Enum.TryParse<Role>(dto.Role, true, out var role))
-                return BadRequest(new { message = "Rol inválido. Use 'Administrador' o 'Empleado'." });
+                return BadRequest(new { message = "Rol inválido. Use 'Admin' o 'Employee'." });
 
             try
             {
@@ -75,7 +76,7 @@ namespace Sistema_inventario_mvc.Controllers
         public IActionResult Update(int id, [FromBody] UpdateUserRequestDto dto)
         {
             if (!Enum.TryParse<Role>(dto.Role, true, out var role))
-                return BadRequest(new { message = "Rol inválido. Use 'Administrador' o 'Empleado'." });
+                return BadRequest(new { message = "Rol inválido. Use 'Admin' o 'Employee'." });
 
             try
             {
