@@ -36,5 +36,11 @@ namespace Sistema_inventario_mvc.Models
                 throw new ArgumentException("Índice de detalle inválido.");
             _details.RemoveAt(detailIndex);
         }
+
+        public void SetId(int id)
+        {
+            if (id <= 0) throw new ArgumentException("ID inválido.");
+            Id = id;
+        }
     }
 }

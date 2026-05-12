@@ -30,5 +30,11 @@ namespace Sistema_inventario_mvc.Models
             UnitPrice = currentUnitPrice;
             SubTotal = Quantity * UnitPrice;
         }
+
+        public void SetId(int id)
+        {
+            if (id <= 0) throw new ArgumentException("ID inválido.");
+            Id = id;
+        }
     }
 }

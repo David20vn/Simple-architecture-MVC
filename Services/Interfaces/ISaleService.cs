@@ -4,8 +4,9 @@ namespace Sistema_inventario_mvc.Services.Interfaces
 {
     public interface ISaleService
     {
-        void CreateSale(Sale sale);
-        Sale GetById(int id);
-        List<Sale> GetAll();
+        Sale CreateSale(int userId, List<SaleDetail> details);
+        Sale? GetById(int id);
+        IEnumerable<Sale> GetAll();
+        IEnumerable<Sale> GetByDateRange(DateTime from, DateTime to);
     }
 }
