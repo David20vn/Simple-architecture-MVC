@@ -41,6 +41,11 @@ namespace Sistema_inventario_mvc.Services.Implementations
                     quantity: item.Quantity,
                     unitPrice: product.Price
                 );
+
+                // Generar id del detail
+                int newId = saleDetails.Count > 0 ? saleDetails.Max(d => d.Id) + 1 : 1;
+                detail.SetId(newId);
+
                 saleDetails.Add(detail);
             }
 
