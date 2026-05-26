@@ -8,5 +8,6 @@ namespace Sistema_inventario_mvc.Repositories.Interfaces
         IEnumerable<Sale> GetAll();
         IEnumerable<Sale> GetByDateRange(DateTime from, DateTime to);
         void Add(Sale sale);
+        void Delete(int id);
     }
 }

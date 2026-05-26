@@ -25,33 +25,44 @@ namespace Sistema_inventario_mvc.Services.Implementations
             if (details == null || details.Count == 0)
                 throw new ArgumentException("La venta debe contener al menos un producto.");
 
-            // Validar productos, obtener precios y verificar stock
+            // 1. Validar productos y construir detalles con precios actuales
             var saleDetails = new List<SaleDetail>();
             foreach (var item in details)
             {
                 var product = _productRepository.GetById(item.ProductId)
                     ?? throw new KeyNotFoundException($"Producto con ID {item.ProductId} no encontrado.");
 
-                // Validar stock suficiente (lanza InvalidOperationException si no hay)
-                _inventoryService.SubtractStock(item.ProductId, item.Quantity);
-
-                // Crear detalle con precio actual del producto
                 var detail = new SaleDetail(
                     productId: product.Id,
                     quantity: item.Quantity,
                     unitPrice: product.Price
                 );
 
-                // Generar id del detail
+                // Generar ID interno del detalle
                 int newId = saleDetails.Count > 0 ? saleDetails.Max(d => d.Id) + 1 : 1;
                 detail.SetId(newId);
 
                 saleDetails.Add(detail);
             }
 
-            // Crear venta (Total y SaleDate se calculan automáticamente)
+            // 2. Crear la venta y guardarla (asigna ID a la venta)
             var sale = new Sale(userId, saleDetails);
-            _saleRepository.Add(sale); // Asigna ID y guarda
+            _saleRepository.Add(sale);   // ahora sale.Id está disponible
+
+            // 3. Descontar stock vinculando el ID de la venta
+            try
+            {
+                foreach (var detail in saleDetails)
+                {
+                    _inventoryService.SubtractStock(detail.ProductId, detail.Quantity, sale.Id);
+                }
+            }
+            catch
+            {
+                // Si algo falla (stock insuficiente inesperado), revertimos la venta
+                _saleRepository.Delete(sale.Id);
+                throw;
+            }
 
             return sale;
         }

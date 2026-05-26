@@ -29,5 +29,12 @@ namespace Sistema_inventario_mvc.Repositories.Implementations
             sale.SetId(newId);
             _sales.Add(sale);
         }
+
+        public void Delete(int id)
+        {
+            var sale = GetById(id);
+            if (sale != null)
+                _sales.Remove(sale);
+        }
     }
 }

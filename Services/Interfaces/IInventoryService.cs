@@ -8,6 +8,6 @@ namespace Sistema_inventario_mvc.Services.Interfaces
         Inventory? GetById(int id);
         Inventory? GetByProductId(int productId);
         Inventory AddStock(int productId, int quantity);
-        Inventory SubtractStock(int productId, int quantity);   // para uso interno en ventas
+        Inventory SubtractStock(int productId, int quantity, int? saleId = null);
     }
 }

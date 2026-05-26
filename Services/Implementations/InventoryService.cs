@@ -8,17 +8,19 @@ namespace Sistema_inventario_mvc.Services.Implementations
     {
         private readonly IInventoryRepository _inventoryRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IInventoryMovementRepository _movementRepository;
 
-        public InventoryService(IInventoryRepository inventoryRepository, IProductRepository productRepository)
+        public InventoryService(
+            IInventoryRepository inventoryRepository,
+            IProductRepository productRepository,
+            IInventoryMovementRepository movementRepository)
         {
             _inventoryRepository = inventoryRepository;
             _productRepository = productRepository;
+            _movementRepository = movementRepository;
         }
 
-        public IEnumerable<Inventory> GetAll()
-        {
-            return _inventoryRepository.GetAll();
-        }
+        public IEnumerable<Inventory> GetAll() => _inventoryRepository.GetAll();
 
         public Inventory? GetById(int id)
         {
@@ -41,40 +43,56 @@ namespace Sistema_inventario_mvc.Services.Implementations
             if (quantity <= 0)
                 throw new ArgumentException("La cantidad a agregar debe ser mayor a cero.");
 
-            // Validar que el producto existe
-            var product = _productRepository.GetById(productId);
-            if (product == null)
-                throw new KeyNotFoundException($"Producto con ID {productId} no encontrado.");
+            var product = _productRepository.GetById(productId)
+                ?? throw new KeyNotFoundException($"Producto con ID {productId} no encontrado.");
 
-            // Obtener inventario existente
             var inventory = _inventoryRepository.GetByProductId(productId);
             if (inventory == null)
             {
-                inventory = new Inventory(productId, 0); // stock inicial 0
-                _inventoryRepository.Add(inventory);      // el repositorio asigna ID
+                inventory = new Inventory(productId, 0);
+                _inventoryRepository.Add(inventory);
             }
 
-            // Usar el método encapsulado para aumentar stock
             inventory.AddStock(quantity);
-            // No es necesario hacer nada más, porque el repositorio trabaja con la misma referencia.
-            // Si el repositorio requiere un Update explícito, lo llamamos aquí.
-            // Asumimos que al modificar el objeto en memoria ya está actualizado.
+
+            // Registrar movimiento de entrada
+            var movement = new InventoryMovement(
+                productId: productId,
+                quantity: quantity,
+                type: MovementType.Entry,
+                description: "Reabastecimiento de inventario"
+            );
+            _movementRepository.Add(movement);
+
             return inventory;
         }
 
-        public Inventory SubtractStock(int productId, int quantity)
+        public Inventory SubtractStock(int productId, int quantity, int? saleId = null)
         {
             if (productId <= 0)
                 throw new ArgumentException("El ID del producto debe ser positivo.");
             if (quantity <= 0)
                 throw new ArgumentException("La cantidad a restar debe ser mayor a cero.");
 
-            var inventory = _inventoryRepository.GetByProductId(productId);
-            if (inventory == null)
-                throw new InvalidOperationException($"No hay inventario para el producto con ID {productId}.");
+            var inventory = _inventoryRepository.GetByProductId(productId)
+                ?? throw new InvalidOperationException($"No hay inventario para el producto con ID {productId}.");
 
-            // El propio método SubtractStock ya lanza InvalidOperationException si no hay suficiente stock
             inventory.SubtractStock(quantity);
+
+            // Crear descripción adecuada según si es venta o salida manual
+            string description = saleId.HasValue
+                ? $"Venta #{saleId.Value}"
+                : "Salida manual de inventario";
+
+            var movement = new InventoryMovement(
+                productId: productId,
+                quantity: quantity,
+                type: MovementType.Exit,
+                description: description,
+                relatedSaleId: saleId
+            );
+            _movementRepository.Add(movement);
+
             return inventory;
         }
     }
