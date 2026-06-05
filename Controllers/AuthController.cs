@@ -25,9 +25,9 @@ namespace Sistema_inventario_mvc.Controllers
         {
             // 1. Buscar usuario por nombre de usuario
             var user = _userRepository.GetByUsername(request.Username);
-            if (user == null){
+            if (user == null)
                 return Unauthorized(new { message = "Usuario o contraseña inválidos" });
-            }
+            
             
             // 2. Verificar contraseña
             if (!PasswordHelper.VerifyPassword(request.Password, user.PasswordHash))

@@ -59,7 +59,6 @@ namespace Sistema_inventario_mvc.Services.Implementations
             }
             catch
             {
-                // Si algo falla (stock insuficiente inesperado), revertimos la venta
                 _saleRepository.Delete(sale.Id);
                 throw;
             }
