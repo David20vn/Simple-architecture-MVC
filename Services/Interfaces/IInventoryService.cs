@@ -7,7 +7,7 @@ namespace Sistema_inventario_mvc.Services.Interfaces
         IEnumerable<Inventory> GetAll();
         Inventory? GetById(int id);
         Inventory? GetByProductId(int productId);
-        Inventory AddStock(int productId, int quantity);
+        Inventory AddStock(int productId, int quantity, decimal unitCost);
         Inventory SubtractStock(int productId, int quantity, int? saleId = null);
     }
 }

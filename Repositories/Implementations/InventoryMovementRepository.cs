@@ -25,6 +25,14 @@ namespace Sistema_inventario_mvc.Repositories.Implementations
             return _movements.Where(m => m.ProductId == productId);
         }
 
+        public IEnumerable<InventoryMovement> GetByProductIdOrdered(int productId)
+        {
+            return _movements
+                .Where(m => m.ProductId == productId)
+                .OrderBy(m => m.Date)                // Orden cronológico ascendente
+                .ThenBy(m => m.Id);                   // Desempate por ID si misma fecha
+        }
+
         public IEnumerable<InventoryMovement> GetByDateRange(DateTime from, DateTime to)
         {
             return _movements.Where(m => m.Date >= from && m.Date <= to);

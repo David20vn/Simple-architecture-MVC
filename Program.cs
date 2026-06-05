@@ -29,6 +29,7 @@ builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 builder.Services.AddSingleton<ISaleRepository, SaleRepository>();
 builder.Services.AddSingleton<ISaleService, SaleService>();
 builder.Services.AddSingleton<IInventoryMovementRepository, InventoryMovementRepository>();
+builder.Services.AddSingleton<IKardexService, KardexService>();
 
 // 3. Autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

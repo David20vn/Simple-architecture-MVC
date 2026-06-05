@@ -7,6 +7,7 @@ namespace Sistema_inventario_mvc.Repositories.Interfaces
         void Add(InventoryMovement movement);
         IEnumerable<InventoryMovement> GetAll();
         IEnumerable<InventoryMovement> GetByProductId(int productId);
+        IEnumerable<InventoryMovement> GetByProductIdOrdered(int productId);  // ← nuevo método
         IEnumerable<InventoryMovement> GetByDateRange(DateTime from, DateTime to);
     }
 }

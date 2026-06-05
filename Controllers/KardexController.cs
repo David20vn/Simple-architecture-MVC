@@ -1,65 +1,38 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sistema_inventario_mvc.DTOs;
-using Sistema_inventario_mvc.Models;
-using Sistema_inventario_mvc.Repositories.Interfaces;
+using Sistema_inventario_mvc.Services.Interfaces;
 
 namespace Sistema_inventario_mvc.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] // Solo usuarios autenticados (Admin y Employee)
+    [Authorize] // Solo usuarios autenticados (Admin o Employee)
     public class KardexController : ControllerBase
     {
-        private readonly IInventoryMovementRepository _movementRepository;
+        private readonly IKardexService _kardexService;
 
-        public KardexController(IInventoryMovementRepository movementRepository)
+        public KardexController(IKardexService kardexService)
         {
-            _movementRepository = movementRepository;
+            _kardexService = kardexService;
         }
 
-        // GET: api/kardex
-        // Parámetros opcionales: productId, from, to
-        [HttpGet]
-        public IActionResult GetMovements(
-            [FromQuery] int? productId = null,
-            [FromQuery] DateTime? from = null,
-            [FromQuery] DateTime? to = null)
+        // GET: api/kardex/product/{productId}?from=...&to=...
+        [HttpGet("product/{productId}")]
+        public IActionResult GetKardex(int productId, [FromQuery] DateTime? from = null, [FromQuery] DateTime? to = null)
         {
-            IEnumerable<InventoryMovement> movements = _movementRepository.GetAll();
+            // Validación básica de rango de fechas
+            if (from.HasValue && to.HasValue && from > to)
+                return BadRequest(new { message = "'from' no puede ser mayor que 'to'." });
 
-            // Aplicar filtros si vienen especificados
-            if (productId.HasValue)
+            try
             {
-                if (productId.Value <= 0)
-                    return BadRequest(new { message = "El ID del producto debe ser positivo." });
-
-                movements = _movementRepository.GetByProductId(productId.Value);
+                var kardex = _kardexService.GetKardex(productId, from, to);
+                return Ok(kardex);
             }
-
-            if (from.HasValue)
-                movements = movements.Where(m => m.Date >= from.Value);
-
-            if (to.HasValue)
-                movements = movements.Where(m => m.Date <= to.Value);
-
-            var dtos = movements.Select(MapToResponseDto).OrderByDescending(m => m.Date);
-            return Ok(dtos);
-        }
-
-        // Método privado de mapeo
-        private InventoryMovementResponseDto MapToResponseDto(InventoryMovement movement)
-        {
-            return new InventoryMovementResponseDto
+            catch (KeyNotFoundException ex)
             {
-                Id = movement.Id,
-                ProductId = movement.ProductId,
-                Quantity = movement.Quantity,
-                Type = movement.Type == MovementType.Entry ? "Entry" : "Exit",
-                Date = movement.Date,
-                Description = movement.Description,
-                RelatedSaleId = movement.RelatedSaleId
-            };
+                return NotFound(new { message = ex.Message });
+            }
         }
     }
 }
